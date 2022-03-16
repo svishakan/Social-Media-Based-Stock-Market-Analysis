@@ -25,15 +25,17 @@ def get_news_data(params):
     
     return headlines
 
-def write_to_csv(categorized_headlines):
+def write_to_csv(file="NewsData.csv", categorized_headlines=None):
     """Prepares dataset by writing Category and Headlines to a CSV file
 
     Params:
     categorized_headlines: Dictionary with category as key and list of headlines as value
     """
 
-    with open("../Datasets/nyTimesData.csv", "a") as data_csv:
-        csv_writer = csv.writer(data_csv)
+    #with open(f"../Datasets/{file}", "a") as data_csv:
+    with open(os.path.join(os.path.dirname(__file__),f"../Datasets/{file}"), "a") as data_csv:
+    
+        csv_writer = csv.writer(data_csv, delimiter='\t')
 
         for category in categorized_headlines:
             for headline in categorized_headlines[category]:
@@ -56,7 +58,7 @@ def remove_duplicates(all_headlines, new_headlines):
 
     return filtered_headlines
 
-if __name__ == "__main__":
+def main(file="NewsData.csv"):
 
     # load the .env file
     load_dotenv()
@@ -112,4 +114,4 @@ if __name__ == "__main__":
         sleep(60)
 
     # Write extracted data to CSV
-    write_to_csv(categorized_headlines)
+    write_to_csv(file, categorized_headlines)
