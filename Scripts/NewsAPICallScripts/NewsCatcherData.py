@@ -60,13 +60,13 @@ def get_current_news_data(query, extra_params):
     return extracted_news
 
 
-def write_to_csv(data, category = "None"):
+def write_to_csv(data, file="NewsData.csv", category = "None"):
     """Writes the content with category to csv file to make the dataset."""
     print("\n  ---Currently writing the '{}' category...---".format(category))
             
     #with open("../Datasets/newscather-data.csv", "a") as data_csv:
-    with open(os.path.join(os.path.dirname(__file__),"../Datasets/newscatcher-data.csv"), "a") as data_csv:
-        csv_writer = csv.writer(data_csv)
+    with open(os.path.join(os.path.dirname(__file__),f"../Datasets/{file}"), "a") as data_csv:
+        csv_writer = csv.writer(data_csv, delimiter='\t')
         
         for data_point in data:
             #remove non-printable characters
@@ -79,7 +79,7 @@ def write_to_csv(data, category = "None"):
     print("\n  ---Currently done writing '{}' category...---".format(category))
 
 
-if __name__ == "__main__":
+def main(file="NewsData.csv"):
     
     #Load .env file
     load_dotenv()
@@ -110,6 +110,6 @@ if __name__ == "__main__":
             for resp in response:   #add to set to prevent duplicates
                 responses.add(resp)
             
-        write_to_csv(responses, category)
+        write_to_csv(responses, file, category)
 
     print("Finished collecting data from the APIs.")
