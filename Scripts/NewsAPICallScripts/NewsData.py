@@ -41,8 +41,14 @@ def get_current_news_data(query, extra_params):
 def write_to_csv(data, file="NewsData.csv", category = "None"):
     """Writes the content with category to csv file to make the dataset."""
 
-    #with open("../Datasets/newsdata.csv", "a") as data_csv:
-    with open(os.path.join(os.path.dirname(__file__),f"../Datasets/{file}"), "a") as data_csv:
+    filepath = os.path.join(os.path.dirname(__file__),f"../../Datasets/{file}")
+    if os.path.exists(filepath):
+        filemode = "a+"
+    else:
+        filemode = "w+"
+    
+    #with open(f"../Datasets/{file}", "a") as data_csv:
+    with open(filepath, filemode) as data_csv:
     
         csv_writer = csv.writer(data_csv, delimiter='\t')
         
