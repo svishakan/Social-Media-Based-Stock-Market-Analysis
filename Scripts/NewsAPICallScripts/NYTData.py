@@ -32,8 +32,14 @@ def write_to_csv(file="NewsData.csv", categorized_headlines=None):
     categorized_headlines: Dictionary with category as key and list of headlines as value
     """
 
+    filepath = os.path.join(os.path.dirname(__file__),f"../../Datasets/{file}")
+    if os.path.exists(filepath):
+        filemode = "a+"
+    else:
+        filemode = "w+"
+    
     #with open(f"../Datasets/{file}", "a") as data_csv:
-    with open(os.path.join(os.path.dirname(__file__),f"../Datasets/{file}"), "a") as data_csv:
+    with open(filepath, filemode) as data_csv:
     
         csv_writer = csv.writer(data_csv, delimiter='\t')
 
@@ -111,7 +117,7 @@ def main(file="NewsData.csv"):
         print("Extracted", len(categorized_headlines[category]), "headlines")
 
         # Sleeping for 1 minute to avoid breaching API limits
-        sleep(60)
+        sleep(30)
 
     # Write extracted data to CSV
     write_to_csv(file, categorized_headlines)
