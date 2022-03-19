@@ -1,4 +1,4 @@
-from re import search
+import re
 from urllib import response
 from numpy import extract
 import requests
@@ -31,16 +31,14 @@ def bearer_oauth(r):
 
 def connect_to_endpoint(url, params):
     response = requests.request("GET", search_url, auth=bearer_oauth, params=params)
-    print(response.status_code)
     if response.status_code != 200:
         raise Exception(response.status_code, response.text)
     return response.json()
 
-def get_tweet_data(query_params):
+def get_tweet_data(query_params, page_count = 10):
     extracted_news = []
     json_response = connect_to_endpoint(search_url, query_params)
     
-    page_count = 9
     while page_count:
         page_count -= 1
         
@@ -54,7 +52,7 @@ def get_tweet_data(query_params):
 	#print(json.dumps(json_response, indent=4, sort_keys=True))
     return extracted_news
 
-def write_to_csv(data, file="NewsData.csv", category = "None", sentiment = "None"):
+def write_to_csv(data, file="NewsData.csv", category = "None"):
     """Writes the content with category to csv file to make the dataset."""
 
     filepath = os.path.join(os.path.dirname(__file__),f"../Datasets/{file}")
@@ -70,14 +68,17 @@ def write_to_csv(data, file="NewsData.csv", category = "None", sentiment = "None
         
         for data_point in data:
             #remove non-printable characters
-            data_point = ''.join(filter(lambda x: x in string.printable, data_point)).replace('\n', ' ').replace('\r', '').replace('\t', ' ')
+            data_point = ''.join(filter(lambda x: x in string.printable, data_point)).replace('\n', ' ').replace('\r', '').replace('\t', ' ').replace('&gt', ' ').replace('&lt', ' ')
+            data_point = re.sub(r'\bhttps://t.co/[^ ]*\b',' ', data_point)
+            data_point = ' '.join(data_point.split())
             #append to csv
-            csv_writer.writerow([category, "--", data_point])
+            csv_writer.writerow([category, data_point])
 
         data_csv.close()
 
-def main(file):
+def main(file, page_count = 10):
     load_dotenv()
+    
     
     global bearer_token 
     bearer_token = os.getenv("TWITTER_DEVELOPER_BEARER_TOKEN")
@@ -97,7 +98,10 @@ def main(file):
         responses = set()
         keywords_list = keywords[category]
 
+        print(f'Collecting {category} tweets')
+        
         for keyword in keywords_list:
+            print(f'\tCollecting {keyword} tweets')
             # query_params['query'] = f"#{keyword}"
                 
             # response = get_tweet_data(query_params)
@@ -106,37 +110,18 @@ def main(file):
             #     responses.add(resp)
             
             #query_params['query'] = f"{keyword} -horrible -worst -sucks -bad -disappointing -accident -fall -down"
-            query_params['query'] = f"{keyword} OR #{keyword}"
+            query_params['query'] = f"(-is:retweet {keyword} -has:links) OR ( -is:retweet #{keyword} -has:links)"
                 
-            response = get_tweet_data(query_params)
+            response = get_tweet_data(query_params, page_count)
             
             for resp in response:   #add to set to prevent duplicates
                 responses.add(resp)
             
-            write_to_csv(responses, file, category, "positive")
-
-    # for category in keywords.keys():
-    #     responses = set()
-    #     keywords_list = keywords[category]
-
-    #     for keyword in keywords_list:
-    #         # query_params['query'] = f"#{keyword}"
-                
-    #         # response = get_tweet_data(query_params)
-            
-    #         # for resp in response:   #add to set to prevent duplicates
-    #         #     responses.add(resp)
-            
-    #         query_params['query'] = f"{keyword} -happy -exciting -excited -favorite -fav -amazing -lovely -incredible -good -great -fantastic -rise -up"
-                
-    #         response = get_tweet_data(query_params)
-            
-    #         for resp in response:   #add to set to prevent duplicates
-    #             responses.add(resp)
-            
-    #         write_to_csv(responses, file, category, "negetive")
-
+            write_to_csv(responses, file, category)
+        print()
     
 if __name__ == "__main__":
     filename = "TweetData.csv"
-    main(filename)
+    page_count = 10
+    
+    main(filename, page_count)
