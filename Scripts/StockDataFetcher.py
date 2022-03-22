@@ -60,13 +60,19 @@ def main(file):
     
     ticker_list = {
         # add new tickers here
+        "Tech": ["INTC", "FB"],
+        "EVS": ["TSLA", "LCID"],
+        "Oil": ["CVX", "XOM", "COP"]   
     }
     
     cur_date = datetime.datetime.now()
     x = cur_date.year - 2
     start_date = datetime.datetime(x, cur_date.month, cur_date.day)
     next_date = start_date + datetime.timedelta(days=5)
-    # next_date = datetime.datetime(2021, 8, 1)
+    
+    # If the process terminates when it shouldnt, uncomment the next line and manually update the date and start the process again
+    # next_date = datetime.datetime(2021, 8, 3)
+    
     while(next_date <= datetime.datetime.now()):
         
         print(f"Date on process: {next_date}")
