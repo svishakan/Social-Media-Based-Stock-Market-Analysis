@@ -45,23 +45,28 @@ def write_to_csv(data, file="StockData.csv", category = "None"):
         
         if(data['status'] == "OK"):
             csv_writer.writerow([category, data["symbol"], data["from"], data["open"], data["close"], data["preMarket"], data["afterHours"], data["high"], data["low"]])
-
+        else:
+            print("NOT OK")
         data_csv.close()
 
 def main(file):
     #Load .env file
     load_dotenv()
 
-    ticker_list = {
+    old_ticker_list = {
         "Tech": ["GOOGL", "AAPL"],
         "Gaming": ["EA"]
+    }
+    
+    ticker_list = {
+        # add new tickers here
     }
     
     cur_date = datetime.datetime.now()
     x = cur_date.year - 2
     start_date = datetime.datetime(x, cur_date.month, cur_date.day)
     next_date = start_date + datetime.timedelta(days=5)
-    
+    # next_date = datetime.datetime(2021, 8, 1)
     while(next_date <= datetime.datetime.now()):
         
         print(f"Date on process: {next_date}")
