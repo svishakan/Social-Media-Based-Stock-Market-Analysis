@@ -71,7 +71,7 @@ def main(file):
     next_date = start_date + datetime.timedelta(days=5)
     
     # If the process terminates when it shouldnt, uncomment the next line and manually update the date and start the process again
-    # next_date = datetime.datetime(2021, 8, 3)
+    next_date = datetime.datetime(2021, 4, 10)
     
     while(next_date <= datetime.datetime.now()):
         
