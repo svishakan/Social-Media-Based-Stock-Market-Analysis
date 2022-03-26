@@ -92,11 +92,17 @@ def main(file, page_count = 10):
     global search_url
     search_url = "https://api.twitter.com/2/tweets/search/recent"
 
-    keywords = {"Crypto": ["bitcoin", "dogecoin", "crypto"],
+    old_keywords = {"Crypto": ["bitcoin", "dogecoin", "crypto"],
                 "Oil": ["crude oil", "oil prices"],
                 "EVs": ["tesla motors", "electric vehicle", "EVs"],
                 "Gaming": ["XBox", "Playstation", "Video Games"],
                 "Tech": ["Apple", "Facebook", "Google", "Amazon"]}
+
+    keywords = {"Crypto": ["BTC", "ETH"],
+                "Oil": ["CVX", "XOM", "COP"],
+                "EVs": ["TSLA", "LCID"],
+                "Gaming": ["EA", "ATVI"],
+                "Tech": ["AAPL", "GOOGL", "INTC", "FB"]}
     
     
     next_date = datetime.datetime(2022, 3, 20)
