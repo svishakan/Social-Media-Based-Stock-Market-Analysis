@@ -9,7 +9,7 @@ import csv
 import string
 import requests
 from urllib import response
-
+import datetime
 
 # To set your environment variables in your terminal run the following line:
 # export 'BEARER_TOKEN'='<your_bearer_token>'
@@ -36,23 +36,27 @@ def connect_to_endpoint(url, params):
     return response.json()
 
 def get_tweet_data(query_params, page_count = 10):
-    extracted_news = []
+    extracted_tweets = []
     json_response = connect_to_endpoint(search_url, query_params)
     
     while page_count:
         page_count -= 1
         
-        for tweet in json_response['data']:
-            if tweet['lang'] == 'en':
-                extracted_news.append(tweet['text'])
-    
-        if json_response['meta']['next_token']:
-            query_params['next_token'] = json_response['meta']['next_token']
-            json_response = connect_to_endpoint(search_url, query_params)
+        if 'data' in json_response:
+            for tweet in json_response['data']:
+                if tweet['lang'] == 'en':
+                    extracted_tweets.append(tweet['text'])
+        
+        if 'meta' in json_response:
+            if 'next_token' in json_response['meta']:
+                query_params['next_token'] = json_response['meta']['next_token']
+                json_response = connect_to_endpoint(search_url, query_params)
 	#print(json.dumps(json_response, indent=4, sort_keys=True))
-    return extracted_news
+    
+    print(f'\t\t -- Extracted {len(extracted_tweets)} tweets')
+    return extracted_tweets
 
-def write_to_csv(data, file="NewsData.csv", category = "None"):
+def write_to_csv(data, file="NewsData.csv", category = "None", date=datetime.datetime.now()):
     """Writes the content with category to csv file to make the dataset."""
 
     filepath = os.path.join(os.path.dirname(__file__),f"../Datasets/{file}")
@@ -66,13 +70,16 @@ def write_to_csv(data, file="NewsData.csv", category = "None"):
     
         csv_writer = csv.writer(data_csv, delimiter='\t')
         
+        if(filemode == "w+"):
+            csv_writer.writerow(["CATEGORY", "DATE", "TWEET"])
+        
         for data_point in data:
             #remove non-printable characters
             data_point = ''.join(filter(lambda x: x in string.printable, data_point)).replace('\n', ' ').replace('\r', '').replace('\t', ' ').replace('&gt', ' ').replace('&lt', ' ')
             data_point = re.sub(r'\bhttps://t.co/[^ ]*\b',' ', data_point)
             data_point = ' '.join(data_point.split())
             #append to csv
-            csv_writer.writerow([category, data_point])
+            csv_writer.writerow([category, date.strftime("%Y-%m-%d"), data_point])
 
         data_csv.close()
 
@@ -91,37 +98,53 @@ def main(file, page_count = 10):
                 "Gaming": ["XBox", "Playstation", "Video Games"],
                 "Tech": ["Apple", "Facebook", "Google", "Amazon"]}
     
+    
+    next_date = datetime.datetime(2022, 3, 20)
+    
+    end_date = datetime.datetime(2022, 3, 23)
+    
     query_params = {}
     query_params['tweet.fields'] = 'created_at,lang,source'
-            
-    for category in keywords.keys():
-        responses = set()
-        keywords_list = keywords[category]
-
-        print(f'Collecting {category} tweets')
+    
+    while(next_date < end_date):
         
-        for keyword in keywords_list:
-            print(f'\tCollecting {keyword} tweets')
-            # query_params['query'] = f"#{keyword}"
+        query_params['start_time'] = f'{next_date.strftime("%Y-%m-%d")}T00:00:00Z'
+        query_params['end_time'] = f'{next_date.strftime("%Y-%m-%d")}T23:59:59Z'
+
+        print(f"Fetching data for {next_date.strftime('%Y-%m-%d')}")
+        
+        for category in keywords.keys():
+            responses = set()
+            keywords_list = keywords[category]
+
+            print(f'\tCollecting {category} tweets')
+            
+            for keyword in keywords_list:
+                print(f'\t\tCollecting {keyword} tweets')
+                # query_params['query'] = f"#{keyword}"
+                    
+                # response = get_tweet_data(query_params)
                 
-            # response = get_tweet_data(query_params)
-            
-            # for resp in response:   #add to set to prevent duplicates
-            #     responses.add(resp)
-            
-            #query_params['query'] = f"{keyword} -horrible -worst -sucks -bad -disappointing -accident -fall -down"
-            query_params['query'] = f"(-is:retweet {keyword} -has:links) OR ( -is:retweet #{keyword} -has:links)"
+                # for resp in response:   #add to set to prevent duplicates
+                #     responses.add(resp)
                 
-            response = get_tweet_data(query_params, page_count)
-            
-            for resp in response:   #add to set to prevent duplicates
-                responses.add(resp)
-            
-            write_to_csv(responses, file, category)
-        print()
+                #query_params['query'] = f"{keyword} -horrible -worst -sucks -bad -disappointing -accident -fall -down"
+                #query_params['query'] = f"(-is:retweet {keyword} -has:links) OR ( -is:retweet #{keyword} -has:links)"
+                query_params['query'] = f"( -is:retweet #{keyword} -has:links)"
+                    
+                response = get_tweet_data(query_params, page_count)
+                
+                for resp in response:   #add to set to prevent duplicates
+                    responses.add(resp)
+                
+                write_to_csv(responses, file, category, next_date)
+            print()
+                
+        next_date = next_date + datetime.timedelta(days=1)
+
     
 if __name__ == "__main__":
-    filename = "TweetData.csv"
+    filename = "NewTweetData.csv"
     page_count = 10
     
     main(filename, page_count)
