@@ -60,6 +60,7 @@ def main(file):
     
     ticker_list = {
         # add new tickers here
+        "Gaming": ["ATVI"],
         "Tech": ["INTC", "FB"],
         "EVS": ["TSLA", "LCID"],
         "Oil": ["CVX", "XOM", "COP"]   
