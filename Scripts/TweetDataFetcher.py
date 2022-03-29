@@ -105,9 +105,9 @@ def main(file, page_count = 10):
                 "Tech": ["AAPL", "GOOGL", "INTC", "FB"]}
     
     
-    next_date = datetime.datetime(2022, 3, 20)
+    next_date = datetime.datetime(2022, 3, 23)
     
-    end_date = datetime.datetime(2022, 3, 23)
+    end_date = datetime.datetime(2022, 3, 26)
     
     query_params = {}
     query_params['tweet.fields'] = 'created_at,lang,source'
