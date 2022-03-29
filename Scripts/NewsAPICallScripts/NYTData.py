@@ -79,7 +79,7 @@ def main(file="NewsData.csv"):
 
     # API parameters
     params = {
-        'api-key': os.getenv('API_KEY'),
+        'api-key': os.getenv('NYTIMES_API_KEY'),
         'begin_date': '20200101',
     }
 

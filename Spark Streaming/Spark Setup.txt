@@ -1,0 +1,53 @@
+INSTALLATION INSTRUCTIONS FOR PYSPARK
+-------------------------------------
+
+sudo apt install python3-pip
+pip3 install jupyter
+sudo apt install jupyter-core
+sudo apt-get update
+sudo apt-get install default-jre
+sudo apt install default-jdk
+sudo apt-get install scala
+pip3 install py4j
+
+Download Spark (https://www.apache.org/dyn/closer.lua/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz)
+Move the archive file to home folder
+sudo tar -zxvg spark-3.2.1-bin-hadoop3.2.tgz
+
+Set Path Variables
+export SPARK_HOME="home/<account_name>/spark-3.2.1-bin-hadoop3.2"
+
+export PATH=$SPARK_HOME:$PATH
+
+export PYTHONPATH=$SPARK_HOME/python:$PYTHONPATH
+
+export PYSPARK_DRIVER_PYTHON="jupyter"
+
+export PYSPARK_DRIVER_PYTHON_OPTS="notebook"
+
+export PYSPARK_PYTHON=python3
+
+Give Permissions
+sudo chmod 777 spark-3.2.1-bin-hadoop3.2
+
+cd spark-3.2.1-bin-hadoop3.2
+sudo chmod 777 python
+
+cd python
+sudo chmod 777 pyspark
+
+pip3 install findspark
+
+
+---FINDSPARK USAGE---
+Note: Findspark allows us to work with Spark outside the Spark directory
+
+import findspark
+findspark.init('/home/<account_name>/spark-3.2.1-bin-hadoop3.2')
+import pyspark
+---FINDSPARK USAGE---
+
+
+---EXTRA---
+pip3 install tweepy matplotlib seaborn pandas
+---EXTRA---
