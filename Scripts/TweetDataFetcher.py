@@ -88,9 +88,9 @@ def main(file, page_count = 10):
     
     
     global bearer_token 
-    bearer_token = os.getenv("TWITTER_DEVELOPER_BEARER_TOKEN")
+    bearer_token = os.getenv("TWITTER_DEVELOPER_ACAD_BEARER_TOKEN")
     global search_url
-    search_url = "https://api.twitter.com/2/tweets/search/recent"
+    search_url = "https://api.twitter.com/2/tweets/search/all"
 
     old_keywords = {"Crypto": ["bitcoin", "dogecoin", "crypto"],
                 "Oil": ["crude oil", "oil prices"],
@@ -98,16 +98,16 @@ def main(file, page_count = 10):
                 "Gaming": ["XBox", "Playstation", "Video Games"],
                 "Tech": ["Apple", "Facebook", "Google", "Amazon"]}
 
-    keywords = {"Crypto": ["BTC", "ETH"],
+    keywords = { #"Crypto": ["BTC", "ETH"],
                 "Oil": ["CVX", "XOM", "COP"],
                 "EVs": ["TSLA", "LCID"],
                 "Gaming": ["EA", "ATVI"],
                 "Tech": ["AAPL", "GOOGL", "INTC", "FB"]}
     
     
-    next_date = datetime.datetime(2022, 3, 23)
+    next_date = datetime.datetime(2020, 3, 30)
     
-    end_date = datetime.datetime(2022, 3, 26)
+    end_date = datetime.datetime(2022, 3, 20)
     
     query_params = {}
     query_params['tweet.fields'] = 'created_at,lang,source'
@@ -127,15 +127,7 @@ def main(file, page_count = 10):
             
             for keyword in keywords_list:
                 print(f'\t\tCollecting {keyword} tweets')
-                # query_params['query'] = f"#{keyword}"
-                    
-                # response = get_tweet_data(query_params)
                 
-                # for resp in response:   #add to set to prevent duplicates
-                #     responses.add(resp)
-                
-                #query_params['query'] = f"{keyword} -horrible -worst -sucks -bad -disappointing -accident -fall -down"
-                #query_params['query'] = f"(-is:retweet {keyword} -has:links) OR ( -is:retweet #{keyword} -has:links)"
                 query_params['query'] = f"( -is:retweet #{keyword} -has:links)"
                     
                 response = get_tweet_data(query_params, page_count)
