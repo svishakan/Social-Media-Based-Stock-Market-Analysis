@@ -54,16 +54,15 @@ def main(file):
     load_dotenv()
 
     old_ticker_list = {
-        "Tech": ["GOOGL", "AAPL"],
-        "Gaming": ["EA"]
+        "Tech": ["GOOGL", "AAPL", "INTC", "FB"],
+        "Gaming": ["EA"],
+        "EVS": ["TSLA", "LCID"],
+        "Oil": ["CVX", "XOM", "COP"] 
     }
     
     ticker_list = {
         # add new tickers here
-        "Gaming": ["ATVI"],
-        "Tech": ["INTC", "FB"],
-        "EVS": ["TSLA", "LCID"],
-        "Oil": ["CVX", "XOM", "COP"]   
+        "Gaming": ["ATVI"]
     }
     
     cur_date = datetime.datetime.now()
@@ -83,7 +82,7 @@ def main(file):
             tickers = ticker_list[category]
             
             for ticker in tickers:
-                print(f"\t\t -- Fetching {ticker} Stock deets")
+                print(f"\t\t -- Fetching {ticker} stock details")
                 data = get_stock_data(ticker, next_date.strftime("%Y-%m-%d"))
                 write_to_csv(data=data, file=file, category=category)
                 sleep(12)
