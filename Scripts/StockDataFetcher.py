@@ -1,5 +1,6 @@
 import os
 import csv
+from pprint import pprint
 import string
 from time import sleep
 import requests
@@ -20,6 +21,7 @@ def get_stock_data(ticker, date):
     req = requests.get(url, params)
     response = req.json()
 
+    #pprint(response)
     return response
 
 
@@ -71,7 +73,7 @@ def main(file):
     next_date = start_date + datetime.timedelta(days=5)
     
     # If the process terminates when it shouldnt, uncomment the next line and manually update the date and start the process again
-    next_date = datetime.datetime(2021, 4, 10)
+    #next_date = datetime.datetime(2021, 4, 10)
     
     while(next_date <= datetime.datetime.now()):
         
