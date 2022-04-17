@@ -10,6 +10,7 @@ import string
 import requests
 from urllib import response
 import datetime
+from time import sleep
 
 # To set your environment variables in your terminal run the following line:
 # export 'BEARER_TOKEN'='<your_bearer_token>'
@@ -75,7 +76,11 @@ def write_to_csv(data, file="NewsData.csv", category = "None", date=datetime.dat
         
         for data_point in data:
             #remove non-printable characters
-            data_point = ''.join(filter(lambda x: x in string.printable, data_point)).replace('\n', ' ').replace('\r', '').replace('\t', ' ').replace('&gt', ' ').replace('&lt', ' ')
+            print("------")
+            print(data_point)
+            data_point = ''.join(filter(lambda x: x in string.printable, data_point)).replace('\n', ' ').replace('\r', '').replace('\t', ' ').replace('&gt', ' ').replace('&lt', ' ').replace('&amp', ' ').replace('&quot', ' ').replace('&apos', ' ')
+            print(data_point)
+            print("-------")
             data_point = re.sub(r'\bhttps://t.co/[^ ]*\b',' ', data_point)
             data_point = ' '.join(data_point.split())
             #append to csv
@@ -98,21 +103,22 @@ def main(file, page_count = 10):
                 "Gaming": ["XBox", "Playstation", "Video Games"],
                 "Tech": ["Apple", "Facebook", "Google", "Amazon"]}
 
-    keywords = { #"Crypto": ["BTC", "ETH"],
-                "Oil": ["CVX", "XOM", "COP"],
+    keywords = {"Crypto": ["BTC", "ETH"],
+                "Oil": ["CVX", "XOM"], #, "COP"],
                 "EVs": ["TSLA", "LCID"],
                 "Gaming": ["EA", "ATVI"],
-                "Tech": ["AAPL", "GOOGL", "INTC", "FB"]}
+                "Tech": ["AAPL", "GOOGL", "INTC", "FB"]
+                }
     
     
     next_date = datetime.datetime(2020, 3, 30)
     
-    end_date = datetime.datetime(2022, 3, 20)
+    end_date = datetime.datetime(2022, 3, 30)
     
     query_params = {}
     query_params['tweet.fields'] = 'created_at,lang,source'
     
-    while(next_date < end_date):
+    while(next_date <= end_date):
         
         query_params['start_time'] = f'{next_date.strftime("%Y-%m-%d")}T00:00:00Z'
         query_params['end_time'] = f'{next_date.strftime("%Y-%m-%d")}T23:59:59Z'
@@ -136,6 +142,7 @@ def main(file, page_count = 10):
                     responses.add(resp)
                 
                 write_to_csv(responses, file, category, next_date)
+                sleep(25)
             print()
                 
         next_date = next_date + datetime.timedelta(days=1)
@@ -143,6 +150,6 @@ def main(file, page_count = 10):
     
 if __name__ == "__main__":
     filename = "NewTweetData.csv"
-    page_count = 10
+    page_count = 15
     
     main(filename, page_count)
