@@ -57,14 +57,13 @@ def main(file):
 
     old_ticker_list = {
         "Tech": ["GOOGL", "AAPL", "INTC", "FB"],
-        "Gaming": ["EA"],
+        "Gaming": ["EA", "ATVI"],
         "EVS": ["TSLA", "LCID"],
         "Oil": ["CVX", "XOM", "COP"] 
     }
     
     ticker_list = {
         # add new tickers here
-        "Gaming": ["ATVI"]
     }
     
     cur_date = datetime.datetime.now()
