@@ -1,0 +1,83 @@
+Kafka and Zookeeper Installation
+
+Download kafka tar file
+Place it inside the home directory
+
+tar -xzf kafka_2.13-3.1.0.tgz
+cd kafka_2.13-3.1.0
+
+Conf Files for Zookeeper and Kafka:
+
+Kafka: server.properties
+Zookeeper: zookeeper.properties
+
+Change configuration in conf file of Kafka:
+
+	advertised.listeners=PLAINTEXT://[server-ip-address]:9092
+	zookeeper.connect=localhost:2181
+
+	(server-ip-address here is localhost)
+
+Start Kafka:
+
+	JMX_PORT=8004 bin/kafka-server-start.sh config/server.properties 
+
+Start Zookeeper:
+
+	bin/zookeeper-server-start.sh config/zookeeper.properties 
+
+Default Ports:
+	Zookeeper:	2181
+	Kafka:		9092
+
+
+Install Kafka Manager (GUI)
+
+git clone https://github.com/yahoo/CMAK (in Home directory)
+
+cd CMAK
+
+./sbt clean dist
+
+"target" folder will now be present
+
+cd target/universal
+
+unzip cmak-3.0.0.6.zip
+
+ls cmak-3.0.0.6.zip
+
+cd conf
+
+open application.conf
+
+Comment out:	cmak.zkhosts="kafka-manager-zookeeper:2181"
+Add:			cmak.zkhosts="localhost:2181"
+
+
+Start Kafka Manager:
+bin/cmak -Dconfig.file=conf/application.conf -Dhttp.port=8080
+
+
+General Procedure After Installation:
+
+	1. Start Zookeeper
+		bin/zookeeper-server-start.sh config/zookeeper.properties 
+
+	2. Start Kafka
+		JMX_PORT=8004 bin/kafka-server-start.sh config/server.properties
+
+	3. Start Kafka Manager
+		bin/cmak -Dconfig.file=conf/application.conf -Dhttp.port=8080
+
+	4. Go To localhost:8080
+
+
+Adding A Cluster
+
+	1. Give cluster name
+	2. Zookeeper Host: localhost:2181
+	3. Enable JMX Polling
+	4. Poll Consumer Information
+	5. Create a topic with topic name 
+	(change partition number if necessary, for now 1 is enough)
