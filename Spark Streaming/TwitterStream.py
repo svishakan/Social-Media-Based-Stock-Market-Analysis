@@ -9,11 +9,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-api_key = os.getenv("API_KEY")
-api_key_secret = os.getenv("API_KEY_SECRET")
+api_key = os.getenv("TWITTER_DEVELOPER_API_KEY")
+api_key_secret = os.getenv("TWITTER_DEVELOPER_API_SECRET_KEY")
 access_token = os.getenv("ACCESS_TOKEN")
 access_token_secret = os.getenv("ACCESS_TOKEN_SECRET")
-bearer_token = os.getenv("BEARER_TOKEN")
+bearer_token = os.getenv("TWITTER_DEVELOPER_BEARER_TOKEN")
 
 #Stream superclass only for Elevated API level access
 #Client superclass for Basic API level access
