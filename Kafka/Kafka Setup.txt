@@ -36,7 +36,7 @@ Install Kafka Manager (GUI)
 git clone https://github.com/yahoo/CMAK (in Home directory)
 
 cd CMAK
-
+# [** java  - 11 reqd]
 ./sbt clean dist
 
 "target" folder will now be present
@@ -45,7 +45,7 @@ cd target/universal
 
 unzip cmak-3.0.0.6.zip
 
-ls cmak-3.0.0.6.zip
+ls cmak-3.0.0.6/
 
 cd conf
 
@@ -54,6 +54,7 @@ open application.conf
 Comment out:	cmak.zkhosts="kafka-manager-zookeeper:2181"
 Add:			cmak.zkhosts="localhost:2181"
 
+cd ..
 
 Start Kafka Manager:
 bin/cmak -Dconfig.file=conf/application.conf -Dhttp.port=8080
