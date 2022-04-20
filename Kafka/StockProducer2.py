@@ -3,7 +3,7 @@ import sqlite3
 import json
 import time
 from kafka import KafkaProducer
-
+import os
 
 def json_serializer(data):
     """Returns a JSON serialized dump of the given data."""
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     print("Kafka Producer started.")
 
     try:
-        connection = sqlite3.connect("../Database/fypdb.db")
+        connection = sqlite3.connect(os.path.dirname(__file__),f"../Database/fypdb.db")
         print("Connected to FYPDB Database.")
 
         categories = ["Tech", "Gaming", "EVS", "Oil", "Crypto"]

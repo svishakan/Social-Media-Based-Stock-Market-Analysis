@@ -1,8 +1,9 @@
+import pprint
 import sqlite3
 import json
 import time
 from kafka import KafkaProducer
-
+import os
 
 def json_serializer(data):
     """Returns a JSON serialized dump of the given data."""
@@ -23,7 +24,7 @@ if __name__ == "__main__":
     print("Kafka Producer started.")
 
     try:
-        connection = sqlite3.connect("../Database/fypdb.db")
+        connection = sqlite3.connect(os.path.join(os.path.dirname(__file__),f"../Database/fypdb.db"))
         print("Connected to FYPDB Database.")
         cursor = connection.cursor()
         query = "SELECT * FROM tweets"
@@ -37,9 +38,17 @@ if __name__ == "__main__":
                 break
 
             for record in records:
-                producer.send("tweets", record) #topic: "tweets"
-                print(record)
-
+                data = dict()
+                data['category'] = record[0]
+                data['date'] = record[1]
+                data['tweet'] = record[2]
+                
+                # record = ','.join(str(x) for x in record)
+                producer.send("tweets", json.dumps(data)) #topic: "tweets"
+                #print(record)
+                # producer.send("tweets", json.dumps(data)) #topic: "tweets"
+                pprint.pprint(json.dumps(data))
+                
             time.sleep(timeout)  #wait for timeout before next send
 
         cursor.close()
