@@ -178,14 +178,15 @@ def main(file, page_count = 10):
         print(f"Fetching data for {next_date.strftime('%Y-%m-%d')}")
         
         for category in keywords.keys():
-            responses = set()
-            response_dict = dict()
             
             keywords_list = keywords[category]
 
             print(f'\tCollecting {category} tweets')
             
             for keyword in keywords_list:
+                responses = set()
+                response_dict = dict()
+            
                 print(f'\t\tCollecting {keyword} tweets')
                 
                 query_params['query'] = f"( -is:retweet {keyword} -has:links lang:en )"
