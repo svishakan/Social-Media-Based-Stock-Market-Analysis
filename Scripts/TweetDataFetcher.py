@@ -123,7 +123,7 @@ def format_response(data_point):
 
 def emoji_download():
     # while running for first time, uncomment the following line
-    # demoji.download_codes()
+    demoji.download_codes()
     
     pass    
     
@@ -153,17 +153,19 @@ def main(file, page_count = 10):
     
     
     used_keywords = {
-        "Tech": ["#GOOGL", "#GOOG", "#AAPL", "#INTC", "$GOOGL", "$GOOG", "$AAPL", "$INTC", "#MSFT", "$MSFT"]   
+        "Tech": ["#GOOGL", "#GOOG", "#AAPL", "#INTC", "$GOOGL", "$GOOG", "$AAPL", "$INTC", "#MSFT", "$MSFT"],
+        "EVs": ["$LCID", "#LCID", "$TSLA", "#TSLA"],
+        "Gaming": ["$EA", "$ATVI", "#ATVI"]
     }
     
     keywords = {
-        
+        "Oil": ["#XOM #Oil", "#COP #Oil", "#DVN #Oil", "#ENB #Oil", "$XOM", "$COP", "$DVN", "$ENB"]  
     }
     
     next_date = datetime.datetime(2020, 4, 7)
     
     #Uncomment below line to fecth data from random staet date
-    # next_date = datetime.datetime(2020, 4, 7)
+    #next_date = datetime.datetime(2021, 9, 27)
     
     end_date = datetime.datetime(2022, 3, 30)
     
@@ -209,7 +211,7 @@ def main(file, page_count = 10):
         
     
 if __name__ == "__main__":
-    filename = "NewTweetData.csv"
+    filename = "EVGamingTweetData.csv"
     page_count = 10
     
     emoji_download()
