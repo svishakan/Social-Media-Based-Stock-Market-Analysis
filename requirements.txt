@@ -1,0 +1,5 @@
+python-dotenv== 0.19.2
+requests==2.27.1
+kafka-python==2.0.2
+demoji==1.1.0
+Faker==13.3.4
