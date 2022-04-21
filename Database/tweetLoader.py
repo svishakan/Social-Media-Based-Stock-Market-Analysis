@@ -4,14 +4,14 @@ import sqlite3
 import os
 
 # Connecting to the FYP database
-connection = sqlite3.connect(os.path.join(os.path.dirname(__file__), f'fypdb.db'))
+connection = sqlite3.connect(os.path.join(os.path.dirname(__file__), f'fypdb.sqlite'))
 
 # Creating a cursor object to execute SQL queries on a database table
 cursor = connection.cursor()
 
 
 FILENAME = "EVGamingTweetData.csv"
-TABLENAME = "tweets_count"
+TABLENAME = "ev_game_tweets_count"
 
 # Table Definition
 create_table = f'''CREATE TABLE IF NOT EXISTS {TABLENAME}(
@@ -47,8 +47,7 @@ select_all = f"SELECT * FROM {TABLENAME}"
 rows = cursor.execute(select_all).fetchall()
 
 # Output to the console screen
-for r in rows:
-	print(r)
+print({"Rows written" : len(rows)})
 
 # Committing the changes
 connection.commit()
