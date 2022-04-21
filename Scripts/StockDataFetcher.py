@@ -63,6 +63,7 @@ def main(file):
     }
     
     ticker_list = {
+        "Oil": ["DVN"],
         # add new tickers here
     }
     
