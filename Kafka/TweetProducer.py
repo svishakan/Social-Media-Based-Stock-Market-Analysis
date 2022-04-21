@@ -5,6 +5,8 @@ import time
 from kafka import KafkaProducer
 import os
 
+TABLENAME = "ev_game_tweets_count"
+
 def json_serializer(data):
     """Returns a JSON serialized dump of the given data."""
 
@@ -12,7 +14,7 @@ def json_serializer(data):
 
 
 if __name__ == "__main__":
-    batch_size, timeout = 10, 10
+    batch_size, timeout = 100, 1
 
     print("-----Tweet Data Producer Stream-----")
 
@@ -24,10 +26,10 @@ if __name__ == "__main__":
     print("Kafka Producer started.")
 
     try:
-        connection = sqlite3.connect(os.path.join(os.path.dirname(__file__),f"../Database/fypdb.db"))
+        connection = sqlite3.connect(os.path.join(os.path.dirname(__file__),f"../Database/fypdb.sqlite"))
         print("Connected to FYPDB Database.")
         cursor = connection.cursor()
-        query = "SELECT * FROM tweets"
+        query = f"SELECT * FROM {TABLENAME} WHERE category LIKE 'Gaming'"
 
         cursor.execute(query)
 
@@ -41,10 +43,11 @@ if __name__ == "__main__":
                 data = dict()
                 data['category'] = record[0]
                 data['date'] = record[1]
-                data['tweet'] = record[2]
+                data['count'] = record[2]
+                data['tweet'] = record[3]
                 
                 # record = ','.join(str(x) for x in record)
-                producer.send("tweets", json.dumps(data)) #topic: "tweets"
+                producer.send("gaming-tweets", json.dumps(data)) #topic: "tweets"
                 #print(record)
                 # producer.send("tweets", json.dumps(data)) #topic: "tweets"
                 pprint.pprint(json.dumps(data))

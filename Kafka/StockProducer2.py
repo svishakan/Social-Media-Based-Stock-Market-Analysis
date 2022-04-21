@@ -1,4 +1,4 @@
-from pprint import pprint
+import pprint
 import sqlite3
 import json
 import time
@@ -11,11 +11,10 @@ def json_serializer(data):
     return json.dumps(data).encode("utf-8")
 
 
-def get_cursors(connection):
+def get_cursors(connection, categories):
     """Creates and returns a set of cursors for each category present in the stocks table."""
 
     cursors = []
-    categories = ["Tech", "Gaming", "EVS", "Oil", "Crypto"]
 
     for category in categories:
         cursor = connection.cursor()
@@ -27,7 +26,7 @@ def get_cursors(connection):
 
 
 if __name__ == "__main__":
-    batch_size, timeout = 10, 30
+    batch_size, timeout = 100, 1
 
     print("-----Stock Data Producer Stream-----")
 
@@ -39,14 +38,15 @@ if __name__ == "__main__":
     print("Kafka Producer started.")
 
     try:
-        connection = sqlite3.connect(os.path.dirname(__file__),f"../Database/fypdb.db")
+        connection = sqlite3.connect(os.path.join(os.path.dirname(__file__),f"../Database/fypdb.sqlite"))
         print("Connected to FYPDB Database.")
 
-        categories = ["Tech", "Gaming", "EVS", "Oil", "Crypto"]
+        # categories = ["Tech", "Gaming", "EVS", "Oil", "Crypto"]
+        categories = ["Gaming"]
 
-        cursors = get_cursors(connection)
+        cursors = get_cursors(connection, categories)
 
-        empty_counts = 0
+        empty_counts = set()
 
         while True:
             for category, cursor in zip(categories, cursors):
@@ -55,16 +55,25 @@ if __name__ == "__main__":
                 records = cursor.fetchmany(batch_size)
 
                 if not records:
-                    empty_counts += 1
+                    empty_counts.add(category)
                     #cursor.close()
                 
-                    if empty_counts == 5:   #break the producer if all stocks are sent
-                        break
                 
                 for record in records:
-                    producer.send(category, record) #topic: "category"-stocks
-                    print(record)
-
+                    data = dict()
+                    data['category'] = record[0]
+                    data['ticker'] = record[1]
+                    data['stockDate'] = record[2]
+                    data['open'] = record[3]
+                    data['close'] = record[4]
+                    
+                    
+                    producer.send(category, json.dumps(data)) #topic: "category"-stocks
+                    pprint.pprint(json.dumps(data))
+            
+                if len(empty_counts) == len(categories):   #break the producer if all stocks are sent
+                    break
+                
             time.sleep(timeout) #wait for timeout after sending a batch of data
 
     
