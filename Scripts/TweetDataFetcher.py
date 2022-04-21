@@ -159,13 +159,13 @@ def main(file, page_count = 10):
     }
     
     keywords = {
-        "Oil": ["#XOM #Oil", "#COP #Oil", "#DVN #Oil", "#ENB #Oil", "$XOM", "$COP", "$DVN", "$ENB"]  
+        "Oil": ["#XOM #Oil", "#COP #Oil", "#DVN #Oil", "#XOM", "#ENB #Oil", "$XOM", "$COP", "$DVN", "$ENB"]  
     }
     
     next_date = datetime.datetime(2020, 4, 7)
     
     #Uncomment below line to fecth data from random staet date
-    #next_date = datetime.datetime(2021, 9, 27)
+    next_date = datetime.datetime(2021, 12, 24)
     
     end_date = datetime.datetime(2022, 3, 30)
     
@@ -212,7 +212,7 @@ def main(file, page_count = 10):
         
     
 if __name__ == "__main__":
-    filename = "EVGamingTweetData.csv"
+    filename = "OilTweetData.csv"
     page_count = 10
     
     emoji_download()
