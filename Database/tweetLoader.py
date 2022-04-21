@@ -10,11 +10,11 @@ connection = sqlite3.connect(os.path.join(os.path.dirname(__file__), f'fypdb.db'
 cursor = connection.cursor()
 
 
-FILENAME = "NewTweetData.csv"
+FILENAME = "EVGamingTweetData.csv"
 TABLENAME = "tweets_count"
 
 # Table Definition
-create_table = f'''CREATE TABLE {TABLENAME}(
+create_table = f'''CREATE TABLE IF NOT EXISTS {TABLENAME}(
 				category TEXT,
 				tweetDate DATE,
 				count INTEGER,
