@@ -10,8 +10,8 @@ connection = sqlite3.connect(os.path.join(os.path.dirname(__file__), f'fypdb.sql
 cursor = connection.cursor()
 
 
-FILENAME = "EVGamingTweetData.csv"
-TABLENAME = "ev_game_tweets_count"
+FILENAME = "OilTweetData.csv"
+TABLENAME = "oil_tweets_count"
 
 # Table Definition
 create_table = f'''CREATE TABLE IF NOT EXISTS {TABLENAME}(
