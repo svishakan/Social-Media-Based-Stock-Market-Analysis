@@ -18,7 +18,7 @@ def get_cursors(connection, categories):
 
     for category in categories:
         cursor = connection.cursor()
-        query = "SELECT * FROM stocks WHERE category='{}'".format(category) 
+        query = "SELECT * FROM stock_data WHERE category='{}'".format(category) 
         cursor.execute(query)
         cursors.append(cursor)
 
