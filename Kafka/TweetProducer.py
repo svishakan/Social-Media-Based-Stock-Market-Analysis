@@ -29,7 +29,7 @@ if __name__ == "__main__":
         connection = sqlite3.connect(os.path.join(os.path.dirname(__file__),f"../Database/fypdb.sqlite"))
         print("Connected to FYPDB Database.")
         cursor = connection.cursor()
-        query = f"SELECT * FROM {TABLENAME} WHERE category LIKE 'Gaming'"
+        query = f"SELECT * FROM {TABLENAME} WHERE category LIKE 'EVs'"
 
         cursor.execute(query)
 
@@ -47,7 +47,7 @@ if __name__ == "__main__":
                 data['tweet'] = record[3]
                 
                 # record = ','.join(str(x) for x in record)
-                producer.send("gaming-tweets", json.dumps(data)) #topic: "tweets"
+                producer.send("ev-tweets", json.dumps(data)) #topic: "tweets"
                 #print(record)
                 # producer.send("tweets", json.dumps(data)) #topic: "tweets"
                 pprint.pprint(json.dumps(data))
