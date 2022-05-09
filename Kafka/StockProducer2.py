@@ -18,7 +18,8 @@ def get_cursors(connection, categories):
 
     for category in categories:
         cursor = connection.cursor()
-        query = "SELECT * FROM stock_data WHERE category='{}'".format(category) 
+        #query = "SELECT * FROM stock_data WHERE category='{}'".format(category)
+        query = "SELECT * FROM stock_data WHERE ticker='TSLA'" #for only TSLA tickers
         cursor.execute(query)
         cursors.append(cursor)
 
@@ -41,8 +42,8 @@ if __name__ == "__main__":
         connection = sqlite3.connect(os.path.join(os.path.dirname(__file__),f"../Database/fypdb.sqlite"))
         print("Connected to FYPDB Database.")
 
-        # categories = ["Tech", "Gaming", "EVS", "Oil", "Crypto"]
-        categories = ["Gaming"]
+        # categories = ["Tech", "Gaming", "EVs", "Oil", "Crypto"]
+        categories = ["EVs"]
 
         cursors = get_cursors(connection, categories)
 
