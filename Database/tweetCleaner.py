@@ -1,8 +1,8 @@
 import sqlite3
 import os
 
-TABLENAME = "oil_tweets_count"
-
+TABLENAME = "tweet_data"
+CATEGORY = "Gaming"
 
 def find_tickers(category, tweet):
     
@@ -45,7 +45,10 @@ if __name__ == "__main__":
 
     connection = sqlite3.connect(os.path.join(os.path.dirname(__file__),f"../Database/fypdb.sqlite"))
     cursor = connection.cursor()
-
+    
+    connection1 = sqlite3.connect(os.path.join(os.path.dirname(__file__),f"../Database/fypdb-{CATEGORY}.sqlite"))
+    cursor1 = connection1.cursor()
+    
     create_table = """
                     CREATE TABLE IF NOT EXISTS tweet_data(
                     category TEXT,
@@ -58,10 +61,10 @@ if __name__ == "__main__":
 
 
 
-    cursor.execute(create_table);
-    connection.commit();
+    cursor1.execute(create_table);
+    connection1.commit();
 
-    select_all = f"SELECT * FROM {TABLENAME}"
+    select_all = f"SELECT * FROM {TABLENAME} WHERE category LIKE '{CATEGORY}'"
 
     rows = cursor.execute(select_all).fetchall()
 
@@ -69,10 +72,8 @@ if __name__ == "__main__":
     insert_query = f"INSERT INTO tweet_data (category, ticker, tweetDate, count, tweet) VALUES(?, ?, ?, ?, ?) ON CONFLICT(category, ticker, tweetDate, tweet) DO NOTHING"
     
     for row in rows:
-        tickers = find_tickers(row[0], row[3]);
-        for ticker in tickers:
-            insert_records.append((row[0], ticker, row[1], row[2], row[3]));
+        insert_records.append((row[0], row[1], row[2], row[3], row[4]))
     
-    cursor.executemany(insert_query, insert_records)
-    connection.commit()
+    cursor1.executemany(insert_query, insert_records)
+    connection1.commit()
     
