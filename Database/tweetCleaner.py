@@ -1,8 +1,8 @@
 import sqlite3
 import os
 
-TABLENAME = "tweet_data"
-CATEGORY = "Gaming"
+TABLENAME = "stock_data"
+CATEGORY = "stock"
 
 def find_tickers(category, tweet):
     
@@ -50,13 +50,14 @@ if __name__ == "__main__":
     cursor1 = connection1.cursor()
     
     create_table = """
-                    CREATE TABLE IF NOT EXISTS tweet_data(
+                    CREATE TABLE IF NOT EXISTS stock_data(
                     category TEXT,
                     ticker TEXT,
-                    tweetDate DATE,
-                    count INTEGER,
-                    tweet TEXT NOT NULL,
-                    CONSTRAINT uniq_twt_dt PRIMARY KEY (category,  ticker, tweetDate, tweet)
+                    stockDate DATE,
+                    open REAL,
+                    close REAL,
+                    high REAL,
+                    low REAL
                     );"""
 
 
@@ -64,15 +65,15 @@ if __name__ == "__main__":
     cursor1.execute(create_table);
     connection1.commit();
 
-    select_all = f"SELECT * FROM {TABLENAME} WHERE category LIKE '{CATEGORY}'"
+    select_all = f"SELECT * FROM {TABLENAME} "
 
     rows = cursor.execute(select_all).fetchall()
 
     insert_records = [];
-    insert_query = f"INSERT INTO tweet_data (category, ticker, tweetDate, count, tweet) VALUES(?, ?, ?, ?, ?) ON CONFLICT(category, ticker, tweetDate, tweet) DO NOTHING"
+    insert_query = f"INSERT INTO stock_data VALUES(?, ?, ?, ?, ?, ? , ?)"
     
     for row in rows:
-        insert_records.append((row[0], row[1], row[2], row[3], row[4]))
+        insert_records.append((row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
     
     cursor1.executemany(insert_query, insert_records)
     connection1.commit()
