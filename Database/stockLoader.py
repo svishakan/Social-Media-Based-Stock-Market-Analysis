@@ -4,7 +4,7 @@ import sqlite3
 import os
 
 # Connecting to the FYP database
-connection = sqlite3.connect(os.path.join(os.path.dirname(__file__), 'fypdb.db'))
+connection = sqlite3.connect(os.path.join(os.path.dirname(__file__), 'fypdb-PnF.sqlite'))
 
 # Creating a cursor object to execute SQL queries on a database table
 cursor = connection.cursor()
@@ -27,13 +27,13 @@ create_table = '''CREATE TABLE IF NOT EXISTS stocks(
 cursor.execute(create_table)
 
 # Opening the StockData.csv file
-file = open('../Datasets/CryptoStockData.csv')
+file = open(os.path.join(os.path.dirname(__file__), '../Datasets/FoodStockData.csv'))
 
 # Reading the contents of the StockData.csv file
 contents = csv.reader(file, delimiter='\t')
 
 # SQL query to insert data into the stocks table
-insert_records = "INSERT INTO stocks (category, ticker, stockDate, open, close, pre_market, afterHours, high, low) VALUES(?, ?, ?, ?, ?, NULL, NULL, NULL, NULL)"
+insert_records = "INSERT INTO stocks (category, ticker, stockDate, open, close, pre_market, afterHours, high, low) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
 # Importing the contents of the file into our stocks table
 cursor.executemany(insert_records, contents)
