@@ -61,11 +61,12 @@ def main(file):
         "Tech": ["GOOGL", "AAPL", "INTC", "FB"],
         "Gaming": ["EA", "ATVI"],
         "EVS": ["TSLA", "LCID"],
-        "Oil": ["CVX", "XOM", "COP", "DVN"]
+        "Oil": ["CVX", "XOM", "COP", "DVN"],
+        "Pharma": ["PFE", "AZN", "MRNA"]
     }
 
     ticker_list = {
-        "Pharma": ["PFE", "AZN", "MRNA"]
+        "Food": ["MCD", "MDLZ", "PEP"]
         # add new tickers here
     }
 
@@ -76,7 +77,7 @@ def main(file):
     next_date = start_date
     
     # If the process terminates unexpectedly, uncomment the next line and manually update the date and start the process again
-    next_date = datetime.datetime(2021, 10, 25)
+    #next_date = datetime.datetime(2021, 10, 25)
 
     while(next_date <= datetime.datetime.now()):
 
@@ -96,5 +97,5 @@ def main(file):
 
 
 if __name__ == "__main__":
-    filename = "PharmaStockData.csv"
+    filename = "FoodStockData.csv"
     main(filename)
