@@ -61,21 +61,22 @@ def main(file):
         "Tech": ["GOOGL", "AAPL", "INTC", "FB"],
         "Gaming": ["EA", "ATVI"],
         "EVS": ["TSLA", "LCID"],
-        "Oil": ["CVX", "XOM", "COP"]
+        "Oil": ["CVX", "XOM", "COP", "DVN"]
     }
 
     ticker_list = {
-        "Oil": ["DVN"],
+        "Pharma": ["PFE", "AZN", "MRNA"]
         # add new tickers here
     }
 
     cur_date = datetime.datetime.now()
     x = cur_date.year - 2
     start_date = datetime.datetime(x, cur_date.month, cur_date.day)
-    next_date = start_date + datetime.timedelta(days=5)
-
+    #next_date = start_date + datetime.timedelta(days=5)
+    next_date = start_date
+    
     # If the process terminates unexpectedly, uncomment the next line and manually update the date and start the process again
-    # next_date = datetime.datetime(2021, 4, 10)
+    next_date = datetime.datetime(2021, 10, 25)
 
     while(next_date <= datetime.datetime.now()):
 
@@ -95,5 +96,5 @@ def main(file):
 
 
 if __name__ == "__main__":
-    filename = "StockData.csv"
+    filename = "PharmaStockData.csv"
     main(filename)
