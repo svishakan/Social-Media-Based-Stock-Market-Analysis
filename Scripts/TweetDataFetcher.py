@@ -164,11 +164,11 @@ def main(file, page_count=10):
         "EVs": ["$LCID", "#LCID", "$TSLA", "#TSLA"],
         "Gaming": ["$EA", "$ATVI", "#ATVI"],
         "Oil": ["#XOM #Oil", "#COP #Oil", "#DVN #Oil", "#XOM", "#ENB #Oil", "$XOM", "$COP", "$DVN", "$ENB"],
-        "Pharma": ["$PFE", "$AZN", "$MRNA", "#Moderna", "#Astrazeneca", "#Pfizer"]
+        "Food": ["$MCD", "$MDLZ", "#PepsiCo", "$PEP"]
     }
 
     keywords = {
-        "Food": ["$MCD", "$MDLZ", "#PepsiCo", "$PEP"]
+        "Pharma": ["$PFE", "$AZN", "$MRNA", "#Moderna", "#Astrazeneca", "#Pfizer"]
     }
 
     #next_date = datetime.datetime(2020, 4, 7)
@@ -178,7 +178,7 @@ def main(file, page_count=10):
     #next_date = datetime.datetime(2022, 3, 1)
 
     #end_date = datetime.datetime(2022, 3, 30)
-    end_date = datetime.datetime(2022, 5, 13)
+    end_date = datetime.datetime(2022, 5, 15)
 
     while(next_date <= end_date):
         # print(type(next_date))
@@ -186,6 +186,7 @@ def main(file, page_count=10):
         query_params['tweet.fields'] = 'created_at,lang,source,public_metrics'
         query_params['start_time'] = f'{next_date.strftime("%Y-%m-%d")}T00:00:00Z'
         query_params['end_time'] = f'{next_date.strftime("%Y-%m-%d")}T23:59:59Z'
+        query_params['max_results'] = 500
 
         print(f"Fetching data for {next_date.strftime('%Y-%m-%d')}")
 
@@ -222,7 +223,7 @@ def main(file, page_count=10):
 
 
 if __name__ == "__main__":
-    filename = "FoodTweetData.csv"
+    filename = "NewPharmaTweetData.csv"
     page_count = 10
 
     emoji_download()
