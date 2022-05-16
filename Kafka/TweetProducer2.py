@@ -26,12 +26,12 @@ if __name__ == "__main__":
 
     try:
         #categories = ["Gaming", "Oil", "EVs", "Tech"]
-        table_names = ["pharma_tweets_count", "food_tweets_count"]
+        table_names = ["pharma_tweets_count"]
 
         #for category in categories:
         for table in table_names:
             #connection = sqlite3.connect(os.path.join(os.path.dirname(__file__),f"../Database/fypdb-{category}.sqlite"))
-            connection = sqlite3.connect(os.path.join(os.path.dirname(__file__),f"../Database/fypdb-PnF.sqlite"))
+            connection = sqlite3.connect(os.path.join(os.path.dirname(__file__),f"../Database/fypdb-Pharma.sqlite"))
             #print(f"Connected to FYPDB-{category} Database.")
             print(f"Connected to FYPDB Database.")
             cursor = connection.cursor()
