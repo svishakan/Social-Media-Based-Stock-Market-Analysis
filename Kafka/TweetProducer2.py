@@ -15,7 +15,7 @@ def json_serializer(data):
 if __name__ == "__main__":
     batch_size, timeout = 100, 1
 
-    print("-----Stock Data Producer Stream-----")
+    print("-----Tweet Data Producer Stream-----")
 
     producer = KafkaProducer(
         bootstrap_servers=["localhost:9092"],
@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
     try:
         #categories = ["Gaming", "Oil", "EVs", "Tech"]
-        table_names = ["pharma_tweets_count"]
+        table_names = ["reduced_tweet_counts"]
 
         #for category in categories:
         for table in table_names:
