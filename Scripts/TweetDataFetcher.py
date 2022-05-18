@@ -163,22 +163,22 @@ def main(file, page_count=10):
         "Tech": ["#GOOGL", "#GOOG", "#AAPL", "#INTC", "$GOOGL", "$GOOG", "$AAPL", "$INTC", "#MSFT", "$MSFT"],
         "EVs": ["$LCID", "#LCID", "$TSLA", "#TSLA"],
         "Gaming": ["$EA", "$ATVI", "#ATVI"],
-        "Oil": ["#XOM #Oil", "#COP #Oil", "#DVN #Oil", "#XOM", "#ENB #Oil", "$XOM", "$COP", "$DVN", "$ENB"],
-        "Food": ["$MCD", "$MDLZ", "#PepsiCo", "$PEP"]
-    }
-
-    keywords = {
+        "Food": ["$MCD", "$MDLZ", "#PepsiCo", "$PEP"],
         "Pharma": ["$PFE", "$AZN", "$MRNA", "#Moderna", "#Astrazeneca", "#Pfizer"]
     }
 
+    keywords = {
+        "Oil": ["#XOM #Oil", "#COP #Oil", "#DVN #Oil", "#XOM", "#ENB #Oil", "$XOM", "$COP", "$DVN", "$ENB"]
+    }
+
     #next_date = datetime.datetime(2020, 4, 7)
-    next_date = datetime.datetime(2020, 5, 1)
+    next_date = datetime.datetime(2020, 3, 30)
 
     #Uncomment below line to fetch data from another date in case of failure
-    #next_date = datetime.datetime(2022, 3, 1)
+    #next_date = datetime.datetime(2022, 2, 16)
 
     #end_date = datetime.datetime(2022, 3, 30)
-    end_date = datetime.datetime(2022, 5, 15)
+    end_date = datetime.datetime(2020, 5, 1)
 
     while(next_date <= end_date):
         # print(type(next_date))
@@ -223,7 +223,7 @@ def main(file, page_count=10):
 
 
 if __name__ == "__main__":
-    filename = "NewPharmaTweetData.csv"
+    filename = "NewOilTweetData.csv"
     page_count = 10
 
     emoji_download()
