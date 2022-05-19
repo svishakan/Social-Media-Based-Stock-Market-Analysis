@@ -4,14 +4,14 @@ import sqlite3
 import os
 
 # Connecting to the FYP database
-connection = sqlite3.connect(os.path.join(os.path.dirname(__file__), f'fypdb-Oil.sqlite'))
+connection = sqlite3.connect(os.path.join(os.path.dirname(__file__), f'fypdb-EVs2.sqlite'))
 
 # Creating a cursor object to execute SQL queries on a database table
 cursor = connection.cursor()
 
 
-FILENAME = "NewOilTweetData.csv"
-TABLENAME = "oil_tweets_count"
+FILENAME = "NewEVTweetData.csv"
+TABLENAME = "ev_tweets_count"
 
 # Table Definition
 create_table = f'''CREATE TABLE IF NOT EXISTS {TABLENAME}(

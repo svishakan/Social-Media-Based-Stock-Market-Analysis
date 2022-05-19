@@ -161,14 +161,15 @@ def main(file, page_count=10):
 
     used_keywords = {
         "Tech": ["#GOOGL", "#GOOG", "#AAPL", "#INTC", "$GOOGL", "$GOOG", "$AAPL", "$INTC", "#MSFT", "$MSFT"],
-        "EVs": ["$LCID", "#LCID", "$TSLA", "#TSLA"],
         "Gaming": ["$EA", "$ATVI", "#ATVI"],
         "Food": ["$MCD", "$MDLZ", "#PepsiCo", "$PEP"],
-        "Pharma": ["$PFE", "$AZN", "$MRNA", "#Moderna", "#Astrazeneca", "#Pfizer"]
+        "Pharma": ["$PFE", "$AZN", "$MRNA", "#Moderna", "#Astrazeneca", "#Pfizer"],
+        "Oil": ["#XOM #Oil", "#COP #Oil", "#DVN #Oil", "#XOM", "#ENB #Oil", "$XOM", "$COP", "$DVN", "$ENB"]
     }
 
     keywords = {
-        "Oil": ["#XOM #Oil", "#COP #Oil", "#DVN #Oil", "#XOM", "#ENB #Oil", "$XOM", "$COP", "$DVN", "$ENB"]
+        
+        "EVs": ["$LCID", "#LCID", "$TSLA", "#TSLA"]
     }
 
     #next_date = datetime.datetime(2020, 4, 7)
@@ -178,7 +179,7 @@ def main(file, page_count=10):
     #next_date = datetime.datetime(2022, 2, 16)
 
     #end_date = datetime.datetime(2022, 3, 30)
-    end_date = datetime.datetime(2020, 5, 1)
+    end_date = datetime.datetime(2022, 5, 19)
 
     while(next_date <= end_date):
         # print(type(next_date))
@@ -212,7 +213,7 @@ def main(file, page_count=10):
                         responses.add(formatted_resp)
                         response_dict[formatted_resp] = resp[1]
                     else:
-                        response_dict[formatted_resp] += resp[1]
+                        response_dict[formatted_resp] = resp[1]
 
                 write_to_csv(response_dict, file, category, next_date)
 
@@ -223,7 +224,7 @@ def main(file, page_count=10):
 
 
 if __name__ == "__main__":
-    filename = "NewOilTweetData.csv"
+    filename = "NewEVTweetData.csv"
     page_count = 10
 
     emoji_download()
