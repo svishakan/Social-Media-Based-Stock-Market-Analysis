@@ -4,7 +4,7 @@ import sqlite3
 import os
 
 # Connecting to the FYP database
-connection = sqlite3.connect(os.path.join(os.path.dirname(__file__), 'fypdb-PnF.sqlite'))
+connection = sqlite3.connect(os.path.join(os.path.dirname(__file__), 'fypdb.sqlite'))
 
 # Creating a cursor object to execute SQL queries on a database table
 cursor = connection.cursor()
@@ -27,7 +27,7 @@ create_table = '''CREATE TABLE IF NOT EXISTS stocks(
 cursor.execute(create_table)
 
 # Opening the StockData.csv file
-file = open(os.path.join(os.path.dirname(__file__), '../Datasets/FoodStockData.csv'))
+file = open(os.path.join(os.path.dirname(__file__), '../Datasets/TechStockData.csv'))
 
 # Reading the contents of the StockData.csv file
 contents = csv.reader(file, delimiter='\t')

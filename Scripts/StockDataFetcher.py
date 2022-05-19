@@ -62,11 +62,12 @@ def main(file):
         "Gaming": ["EA", "ATVI"],
         "EVS": ["TSLA", "LCID"],
         "Oil": ["CVX", "XOM", "COP", "DVN"],
-        "Pharma": ["PFE", "AZN", "MRNA"]
+        "Pharma": ["PFE", "AZN", "MRNA"],
+        "Food": ["MCD", "MDLZ", "PEP"]
     }
 
     ticker_list = {
-        "Food": ["MCD", "MDLZ", "PEP"]
+        "Tech": ["MSFT"]
         # add new tickers here
     }
 
@@ -97,5 +98,5 @@ def main(file):
 
 
 if __name__ == "__main__":
-    filename = "FoodStockData.csv"
+    filename = "TechStockData.csv"
     main(filename)

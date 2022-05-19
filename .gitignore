@@ -8,3 +8,4 @@ path/
 .ipynb_checkpoints/
 **/*.ipynb_checkpoints/
 Demo/
+fypdb-Tech2.sqlite
