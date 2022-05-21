@@ -26,12 +26,12 @@ if __name__ == "__main__":
 
     try:
         #categories = ["Gaming", "Oil", "EVs", "Tech"]
-        table_names = ["reduced_tweet_counts"]
+        table_names = ["new_reduced_tweet_counts"]
 
         #for category in categories:
         for table in table_names:
             #connection = sqlite3.connect(os.path.join(os.path.dirname(__file__),f"../Database/fypdb-{category}.sqlite"))
-            connection = sqlite3.connect(os.path.join(os.path.dirname(__file__),f"../Database/fypdb-Pharma.sqlite"))
+            connection = sqlite3.connect(os.path.join(os.path.dirname(__file__),f"../Database/fypdb-EVs2.sqlite"))
             #print(f"Connected to FYPDB-{category} Database.")
             print(f"Connected to FYPDB Database.")
             cursor = connection.cursor()
@@ -50,7 +50,7 @@ if __name__ == "__main__":
                 data['tweet'] = record[3]
                         
                         
-                producer.send('tweets-pharma-topic', json.dumps(data)) #topic: tweets-topic
+                producer.send('tweets-ev-topic', json.dumps(data)) #topic: tweets-topic
                 pprint.pprint(json.dumps(data))
 
 
