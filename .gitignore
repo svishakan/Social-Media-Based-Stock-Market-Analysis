@@ -9,3 +9,4 @@ path/
 **/*.ipynb_checkpoints/
 Demo/
 fypdb-Tech2.sqlite
+fypdb-Pharma.sqlite
