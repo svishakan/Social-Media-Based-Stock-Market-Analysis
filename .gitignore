@@ -10,3 +10,7 @@ path/
 Demo/
 fypdb-Tech2.sqlite
 fypdb-Pharma.sqlite
+fypdb-RawTweets.sqlite
+fypdb-ReducedTweets.sqlite
+fypdb-Results.sqlite
+fypdb-StockData.sqlite
